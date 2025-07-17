@@ -29,96 +29,59 @@ So we'll just recursively call the function for each level while swapping the va
 ### Code 
 ``` cpp
 #include "../stdc++.h"
-
 #define int long long
-
 #define endl '\n'
 
 using namespace std;
 
-  
-
 set<vector<int>> ans;
 
-  
-
 void addAns(vector<int> &v) {
-
-ans.insert(v);
-
+    ans.insert(v);
 }
-
-  
 
 void recur(vector<int> v, int level, int n) {
+    if (level == n) { // base case: current permutation is finished
+        addAns(v);
+        return;
+    }
 
-if(level == n) { // base case: current permutation is finished
-
-addAns(v);
-
-return;
-
+    // swap and call func again for each level after current level
+    for (int i = level; i < n; i++) {
+        swap(v[level], v[i]); // swap element at current index with ith element after current index
+        recur(v, level + 1, n); // call func again for next level
+        // no need to swap back since `v` is passed by value
+    }
 }
-
-  
-
-// swap and call func again for each level after current level
-
-for(int i = level; i < n; i++) {
-
-swap(v[level], v[i]); // swap element at current index with ith element after current index
-
-recur(v, level + 1, n); // call func again for next level
-
-}
-
-}
-
-  
 
 void solve() {
+    int n;
+    cin >> n;
+    vector<int> v(n);
 
-int n; cin >> n;
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
 
-vector<int> v(n);
+    recur(v, 0, n);
 
-for(int i = 0; i < n; i++) cin >> v[i];
-
-  
-
-recur(v, 0, n);
-
-  
-
-for(vector<int> v: ans) {
-
-for(int i: v) cout << i << " ";
-
-cout << endl;
-
+    for (vector<int> v : ans) {
+        for (int i : v)
+            cout << i << " ";
+        cout << endl;
+    }
 }
-
-}
-
-  
 
 signed main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-ios_base::sync_with_stdio(false);
+    int _t = 1;
+    // cin >> _t;
 
-cin.tie(NULL); cout.tie(NULL);
+    while (_t--)
+        solve();
 
-  
-
-int _t = 1;
-
-// cin >> _t;
-
-  
-
-while(_t--) solve();
-
-return 0;
-
+    return 0;
 }
 ```

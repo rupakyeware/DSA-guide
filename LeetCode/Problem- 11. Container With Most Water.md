@@ -10,7 +10,7 @@ Return _the maximum amount of water a container can store_.
 
 **Notice** that you may not slant the container.
 
-![[Problem 11. Container With Most Water Image.png]]
+![[Problem- 11. Container With Most Water Image.png]]
 
 ## Approach
 Imagine this. You place [[2 pointers]], one at the beginning of the array and one at the end. At any given point in time, you can only see the bars that are pointed to by the pointers. So we compute the area formed by these points by multiplying the minimum between the two bars (as the max water than can be filled in a container formed by the 2 bars is up to the height of the smaller bar) with the distance between the 2 bars.

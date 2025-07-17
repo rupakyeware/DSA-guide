@@ -57,5 +57,3 @@ public:
     }
 };
 ```
-
-## Approach 2- [[Kadane's Algorithm]]

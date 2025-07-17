@@ -28,108 +28,62 @@ You may assume the two numbers do not contain any leading zero, except the numbe
 We approach this literally like elementary school addition since the input lists are reversed and the output list also has to be reversed. We'll have to keep the carry in mind.
 Initialize the carry to 0 and [[2 pointers]], p1 and p2 to the start of lists 1 and 2 respectively.
 Then we calculate the sum of both the numbers and the carry, set the carry as sum / 10, create a new node and then point current, which will be initialized pointing to a dummy node, to the new node. Then we move current, and the 2 pointers one step ahead each.
-```
+
+```cpp
 /**
-
-* Definition for singly-linked list.
-
-* struct ListNode {
-
-* int val;
-
-* ListNode *next;
-
-* ListNode() : val(0), next(nullptr) {}
-
-* ListNode(int x) : val(x), next(nullptr) {}
-
-* ListNode(int x, ListNode *next) : val(x), next(next) {}
-
-* };
-
-*/
-
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
-
 public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* head = new ListNode(-1);
+        int carry = 0;
 
-ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* curr;
+        curr = head;
+        while(l1 != nullptr && l2 != nullptr) {
+            int sum = l1->val + l2->val + carry;
+            curr->next = new ListNode(sum % 10);
+            carry = sum / 10;
 
-int carry = 0;
+            curr = curr->next;
+            l1 = l1->next;
+            l2 = l2->next;
+        }
 
-ListNode* p1 = l1;
+        if(l1 != nullptr) {
+            while(l1 != nullptr) {
+                int sum = l1->val + carry;
+                curr->next = new ListNode(sum % 10);
+                carry = sum / 10;     
 
-ListNode* p2 = l2;
+                l1 = l1->next;
+                curr = curr->next;
+            }
+        }
+        else if(l2 != nullptr) {
+            while(l2 != nullptr) {
+                int sum = l2->val + carry;
+                curr->next = new ListNode(sum % 10);
+                carry = sum / 10;     
 
-ListNode dummy(0);
+                l2 = l2->next;
+                curr = curr->next;
+            }
+        }
 
-ListNode* curr = &dummy;
+        if(carry) {
+            curr->next = new ListNode(carry);
+        }
 
-  
-
-while(p1 && p2) {
-
-int sum = p1->val + p2->val + carry;
-
-carry = sum / 10;
-
-ListNode* new_node = new ListNode(sum % 10);
-
-curr->next = new_node;
-
-curr = curr->next;
-
-p1 = p1->next;
-
-p2 = p2->next;
-
-}
-
-  
-
-while(p1) {
-
-int sum = carry + p1->val;
-
-carry = sum / 10;
-
-ListNode* new_node = new ListNode(sum % 10);
-
-curr->next = new_node;
-
-curr = curr->next;
-
-p1 = p1->next;
-
-}
-
-while(p2) {
-
-int sum = carry + p2->val;
-
-carry = sum / 10;
-
-ListNode* new_node = new ListNode(sum % 10);
-
-curr->next = new_node;
-
-curr = curr->next;
-
-p2 = p2->next;
-
-}
-
-if(carry > 0) {
-
-ListNode* new_node = new ListNode(carry);
-
-curr->next = new_node;
-
-}
-
-return dummy.next;
-
-}
-
+        return head->next;
+    }
 };
 ```
